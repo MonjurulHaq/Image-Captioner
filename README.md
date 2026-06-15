@@ -2,6 +2,8 @@
 
 Sondhan AI is a lost-and-found web app for students. People can report lost items, report found items, search, claim matches, and chat with the AI assistant.
 
+Live demo: https://5f27018b-a4c2-4505-95a5-66dc14b65e35-00-3n83dqemnjpx0.sisko.replit.dev/
+
 ## What you need
 
 Install these first:
