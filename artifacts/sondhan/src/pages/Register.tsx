@@ -70,7 +70,7 @@ export default function Register() {
                 <FormField control={form.control} name="email" render={({ field }) => (
                   <FormItem className="col-span-2">
                     <FormLabel>Email</FormLabel>
-                    <FormControl><Input data-testid="input-email" type="email" placeholder="you@buet.ac.bd" {...field} /></FormControl>
+                    <FormControl><Input data-testid="input-email" type="email" placeholder="you@uttara.ac.bd" {...field} /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -84,7 +84,7 @@ export default function Register() {
                 <FormField control={form.control} name="universityId" render={({ field }) => (
                   <FormItem>
                     <FormLabel>University ID</FormLabel>
-                    <FormControl><Input data-testid="input-university-id" placeholder="BUET2105123" {...field} /></FormControl>
+                    <FormControl><Input data-testid="input-university-id" placeholder="UU2105123" {...field} /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />

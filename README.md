@@ -124,3 +124,37 @@ If the seeded data is present, these are the demo logins:
 - API server: `artifacts/api-server`
 - Database schema: `lib/db`
 - Shared API contract: `lib/api-spec/openapi.yaml`
+
+## File structure
+
+```text
+Image-Captioner/
+├── artifacts/
+│   ├── api-server/                  # Express API server
+│   │   ├── src/
+│   │   │   ├── routes/              # API route handlers
+│   │   │   ├── middlewares/         # Auth/admin middlewares
+│   │   │   └── lib/                 # Logger, auth helpers
+│   │   └── build.mjs                # API build script (esbuild)
+│   ├── sondhan/                     # Main React frontend (Vite)
+│   │   └── src/
+│   │       ├── pages/               # App pages (Dashboard, Search, etc.)
+│   │       ├── components/          # Shared UI and layout components
+│   │       ├── hooks/               # React hooks (auth, toast, mobile)
+│   │       └── lib/                 # Frontend utility functions
+│   └── mockup-sandbox/              # UI sandbox app
+├── lib/
+│   ├── api-spec/                    # OpenAPI source + Orval config
+│   │   ├── openapi.yaml
+│   │   └── orval.config.ts
+│   ├── api-client-react/            # Generated React Query API client
+│   │   └── src/generated/
+│   ├── api-zod/                     # Generated Zod schemas/types from API
+│   │   └── src/generated/
+│   └── db/                          # Drizzle schema + DB connection
+│       └── src/schema/
+├── scripts/                         # Workspace utility scripts
+├── package.json                     # Root workspace scripts
+├── pnpm-workspace.yaml              # Workspace package list
+└── README.md
+```
