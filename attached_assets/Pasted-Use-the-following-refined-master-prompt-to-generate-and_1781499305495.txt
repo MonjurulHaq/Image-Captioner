@@ -1,0 +1,878 @@
+Use the following refined **master prompt** to generate and build your hackathon project. It is optimized specifically for the **University Lost & Found Web System**, aligned with the judging criteria, designed for **Bangladeshi university students**, and scoped so a small team can finish an impressive MVP within **3 hours** while still earning bonus marks for AI, security, and deployment.
+
+---
+
+# MASTER PROJECT GENERATION PROMPT
+
+## PROJECT NAME
+
+# **সন্ধান (Sondhan AI)**
+
+### Tagline
+
+**"Find What Matters."**
+
+AI-Powered Smart Lost & Found Platform for Bangladeshi Universities.
+
+---
+
+# PROJECT CONTEXT
+
+You are a Senior Software Architect, MERN Stack Engineer, Product Manager, Database Architect, AI Engineer, Security Engineer, UI/UX Designer, and Hackathon Mentor.
+
+Build a production-ready MERN Stack web application called:
+
+# Sondhan AI
+
+An AI-powered Lost & Found Management System designed specifically for Bangladeshi universities such as:
+*UU(uttara university)
+* BUET
+* DU
+* CUET
+* RUET
+* KUET
+* SUST
+* NSTU
+* BRAC University
+* AIUB
+* NSU
+* Jahangirnagar University
+* Comilla University
+* Islamic University
+
+The system solves the common problem where students lose:
+
+* University ID Cards
+* Student Cards
+* Mobile Phones
+* Wallets
+* ATM Cards
+* Laptops
+* USB Drives
+* Headphones
+* Keys
+* Books
+* Lab Equipment
+* Calculators
+
+Currently these are shared through:
+
+* Facebook Groups
+* Messenger
+* WhatsApp Groups
+* Department Notice Boards
+
+which causes:
+
+* Scattered information
+* Fake claims
+* Delayed recovery
+* Poor verification
+* Lack of tracking
+
+The goal is to provide one centralized platform where students can quickly report, search, verify, claim, and recover lost belongings.
+
+---
+
+# TECHNOLOGY STACK
+
+Frontend:
+
+* React
+* React Router DOM
+* Tailwind CSS
+* Axios
+* React Query
+* Recharts
+* React Hook Form
+
+Backend:
+
+* Node.js
+* Express.js
+
+Database:
+
+* MongoDB Atlas
+* Mongoose
+
+Authentication:
+
+* JWT
+* bcrypt
+
+Storage:
+
+* Cloudinary
+
+AI:
+
+* Gemini API
+
+Deployment:
+
+Frontend → Vercel
+
+Backend → Render
+
+Database → MongoDB Atlas
+
+---
+
+# SYSTEM ARCHITECTURE
+
+Generate complete architecture.
+
+Include:
+
+## Frontend Layer
+
+React SPA
+
+Modules:
+
+* Authentication
+* Lost Items
+* Found Items
+* Search
+* Claims
+* Notifications
+* Dashboard
+* Admin Panel
+* AI Assistant
+
+---
+
+## Backend Layer
+
+Express API
+
+Modules:
+
+* Auth Service
+* User Service
+* Lost Item Service
+* Found Item Service
+* Claim Service
+* Notification Service
+* AI Matching Service
+* Analytics Service
+
+---
+
+## Database Layer
+
+MongoDB Atlas
+
+Collections:
+
+* Users
+* LostItems
+* FoundItems
+* Claims
+* Notifications
+* Reports
+* AIRecommendations
+
+---
+
+# DATABASE DESIGN
+
+Database Name:
+
+```bash
+sondhan_ai
+```
+
+---
+
+# COLLECTIONS
+
+## Users
+
+```js
+{
+  _id,
+  name,
+  email,
+  universityId,
+  department,
+  batch,
+  role,
+  password,
+  profileImage,
+  phone,
+  isVerified,
+  createdAt
+}
+```
+
+Roles:
+
+```js
+Student
+Teacher
+Staff
+Admin
+```
+
+---
+
+## LostItems
+
+```js
+{
+  _id,
+  title,
+  category,
+  description,
+  image,
+  dateLost,
+  lastSeenLocation,
+  status,
+  reportedBy,
+  aiMatches[],
+  createdAt
+}
+```
+
+---
+
+## FoundItems
+
+```js
+{
+  _id,
+  title,
+  category,
+  description,
+  image,
+  dateFound,
+  foundLocation,
+  status,
+  foundBy,
+  createdAt
+}
+```
+
+---
+
+## Claims
+
+```js
+{
+  _id,
+  claimant,
+  itemType,
+  itemId,
+  proofText,
+  proofImage,
+  status,
+  reviewedBy,
+  reviewedAt,
+  createdAt
+}
+```
+
+Status:
+
+```js
+Pending
+Approved
+Rejected
+Returned
+```
+
+---
+
+## Notifications
+
+```js
+{
+  _id,
+  user,
+  title,
+  message,
+  type,
+  isRead,
+  createdAt
+}
+```
+
+---
+
+## Reports
+
+```js
+{
+  _id,
+  reporter,
+  targetItem,
+  reason,
+  status
+}
+```
+
+---
+
+## AIRecommendations
+
+```js
+{
+  _id,
+  lostItem,
+  foundItem,
+  score,
+  similarity,
+  createdAt
+}
+```
+
+---
+
+# ROLE BASED ACCESS CONTROL
+
+Student:
+
+* Create lost post
+* Create found post
+* Submit claim
+* View notifications
+
+Teacher:
+
+* Same as student
+
+Staff:
+
+* Same as teacher
+* Verify recovery
+
+Admin:
+
+* Manage users
+* Manage claims
+* Remove fake posts
+* Approve claims
+* Analytics access
+
+---
+
+# CORE FEATURES
+
+## Authentication
+
+Register
+
+Fields:
+
+```js
+Name
+Email
+University ID
+Department
+Batch
+Role
+Password
+```
+
+Login
+
+JWT Authentication
+
+Forgot Password
+
+Profile Management
+
+---
+
+## Lost Item Module
+
+Students can:
+
+* Upload image
+* Enter title
+* Select category
+* Enter description
+* Enter date lost
+* Enter last seen location
+
+Status:
+
+```js
+Lost
+Matched
+Recovered
+```
+
+---
+
+## Found Item Module
+
+Students can:
+
+* Upload image
+* Category
+* Description
+* Date Found
+* Location Found
+
+Status:
+
+```js
+Found
+Claimed
+Returned
+```
+
+---
+
+## Search Module
+
+Advanced Search:
+
+Search by:
+
+* Item name
+* Category
+* Location
+* Date
+* Status
+
+Filters:
+
+* Faculty
+* Department
+* Campus
+
+---
+
+## Claim Module
+
+Student submits:
+
+```js
+Proof Text
+Proof Image
+Unique Item Information
+```
+
+Example:
+
+"My BUET ID card has roll number 2105123"
+
+---
+
+## Admin Dashboard
+
+Admin can:
+
+* Approve claim
+* Reject claim
+* Mark item returned
+* Delete fake post
+* Manage users
+
+---
+
+# AI FEATURES (BONUS MARKS)
+
+---
+
+## AI Lost & Found Matching
+
+Using Gemini API
+
+Whenever a Lost Item is created:
+
+Compare against all Found Items.
+
+Factors:
+
+* Title Similarity
+* Category Similarity
+* Description Similarity
+* Location Similarity
+
+Generate:
+
+```js
+Match Score
+Similarity Percentage
+Confidence Level
+```
+
+Example:
+
+```json
+{
+  "foundItem": "Blue Wallet",
+  "similarity": "92%",
+  "confidence": "High"
+}
+```
+
+Automatically notify user.
+
+---
+
+## Bengali + English AI Assistant
+
+### Sondhan AI Assistant
+
+Supports:
+
+English:
+
+```text
+How do I claim my lost laptop?
+```
+
+Bangla:
+
+```text
+আমি আমার আইডি কার্ড হারিয়েছি, কী করবো?
+```
+
+Can answer:
+
+* Recovery process
+* Claim process
+* Lost item reporting
+* University policies
+
+Powered by Gemini.
+
+---
+
+## Smart Description Analyzer
+
+Gemini automatically:
+
+* Extracts keywords
+* Detects category
+* Suggests tags
+
+Example:
+
+Input:
+
+```text
+Lost black HP laptop near CSE building.
+```
+
+Output:
+
+```json
+{
+  "category": "Laptop",
+  "tags": ["HP", "Black", "CSE Building"]
+}
+```
+
+---
+
+# NOTIFICATION SYSTEM
+
+In-App Notifications
+
+Events:
+
+* New AI Match Found
+* Claim Submitted
+* Claim Approved
+* Claim Rejected
+* Item Returned
+
+---
+
+# ANALYTICS DASHBOARD
+
+Charts using Recharts
+
+Metrics:
+
+* Total Lost Items
+* Total Found Items
+* Recovery Rate
+* Claim Approval Rate
+* Most Lost Categories
+* Monthly Recovery Trends
+
+---
+
+# SECURITY FEATURES
+
+Implement:
+
+## Authentication
+
+JWT
+
+## Password Security
+
+bcrypt
+
+## Authorization
+
+RBAC Middleware
+
+## Validation
+
+Express Validator
+
+## Security Middleware
+
+Helmet
+
+CORS
+
+Rate Limiting
+
+Mongo Sanitization
+
+XSS Protection
+
+---
+
+# API DESIGN
+
+Generate complete APIs.
+
+---
+
+## Auth
+
+```bash
+POST /api/auth/register
+POST /api/auth/login
+GET /api/auth/me
+```
+
+---
+
+## Users
+
+```bash
+GET /api/users
+GET /api/users/:id
+PUT /api/users/:id
+DELETE /api/users/:id
+```
+
+---
+
+## Lost Items
+
+```bash
+POST /api/lost-items
+GET /api/lost-items
+GET /api/lost-items/:id
+PUT /api/lost-items/:id
+DELETE /api/lost-items/:id
+```
+
+---
+
+## Found Items
+
+```bash
+POST /api/found-items
+GET /api/found-items
+GET /api/found-items/:id
+PUT /api/found-items/:id
+DELETE /api/found-items/:id
+```
+
+---
+
+## Claims
+
+```bash
+POST /api/claims
+GET /api/claims
+GET /api/claims/:id
+
+PATCH /api/claims/:id/approve
+PATCH /api/claims/:id/reject
+PATCH /api/claims/:id/returned
+```
+
+---
+
+## Notifications
+
+```bash
+GET /api/notifications
+PATCH /api/notifications/read/:id
+```
+
+---
+
+## AI
+
+```bash
+POST /api/ai/match-item
+POST /api/ai/chat
+```
+
+---
+
+## Analytics
+
+```bash
+GET /api/analytics/dashboard
+```
+
+---
+
+# FRONTEND PAGES
+
+## Public
+
+```bash
+/
+about
+login
+register
+search
+```
+
+---
+
+## User
+
+```bash
+/dashboard
+
+/lost-items
+
+/found-items
+
+/create-lost-item
+
+/create-found-item
+
+/claims
+
+/notifications
+
+/profile
+```
+
+---
+
+## Admin
+
+```bash
+/admin
+
+/admin/users
+
+/admin/claims
+
+/admin/reports
+
+/admin/analytics
+```
+
+---
+
+# HACKATHON DEMO FLOW
+
+1. Student registers
+2. Reports lost wallet
+3. Another student reports found wallet
+4. Gemini detects match
+5. Notification appears
+6. Student submits claim
+7. Admin approves claim
+8. Item marked returned
+9. Analytics dashboard updates
+
+This creates a complete story for judges in under 3 minutes.
+
+---
+
+# JUDGING SCORE OPTIMIZATION
+
+### Problem Understanding
+
+✔ University-specific solution
+
+### Innovation
+
+✔ AI matching
+
+✔ Bengali AI assistant
+
+✔ Smart categorization
+
+### Technical Complexity
+
+✔ MERN
+
+✔ JWT
+
+✔ RBAC
+
+✔ Gemini
+
+✔ Analytics
+
+### Backend
+
+✔ Modular architecture
+
+### Frontend
+
+✔ Responsive Tailwind UI
+
+### Database
+
+✔ Normalized schemas
+
+### Security
+
+✔ JWT
+
+✔ bcrypt
+
+✔ Rate limiting
+
+### Deployment
+
+✔ Render
+
+✔ Vercel
+
+### Bonus Marks
+
+✔ Gemini AI
+
+✔ Notification system
+
+✔ Analytics
+
+✔ Cloudinary integration
+
+---
+
+## 3-HOUR BUILD PRIORITY
+
+If time is limited, build in this order:
+
+1. Authentication
+2. Lost Items CRUD
+3. Found Items CRUD
+4. Claims
+5. Admin Approval
+6. Gemini Matching
+7. Notifications
+8. Analytics
+9. AI Assistant
+
+This sequence gives the highest score-to-time ratio for the hackathon.
+
+**Recommended final pitch:**
+*"Sondhan AI is a centralized AI-powered Lost & Found ecosystem for Bangladeshi universities that reduces recovery time, prevents fake claims, and intelligently connects lost items with found items using Gemini AI."*

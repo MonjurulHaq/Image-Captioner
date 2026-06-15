@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Sondhan AI"
+version = "1.0.0"
+id = "artifacts/sondhan"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21282
+
+[services.development]
+run = "pnpm --filter @workspace/sondhan run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/sondhan", "run", "build" ]
+publicDir = "artifacts/sondhan/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21282"
+BASE_PATH = "/"
