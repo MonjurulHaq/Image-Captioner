@@ -3,20 +3,36 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Sondhan AI - Lost & Found Platform API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: auth
+    description: Authentication operations
+  - name: users
+    description: User management
+  - name: lost-items
+    description: Lost item operations
+  - name: found-items
+    description: Found item operations
+  - name: claims
+    description: Claim operations
+  - name: notifications
+    description: Notification operations
+  - name: analytics
+    description: Analytics operations
+  - name: ai
+    description: AI operations
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +40,572 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /auth/register:
+    post:
+      operationId: register
+      tags: [auth]
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterInput"
+      responses:
+        "201":
+          description: Registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/login:
+    post:
+      operationId: login
+      tags: [auth]
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginInput"
+      responses:
+        "200":
+          description: Logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/me:
+    get:
+      operationId: getMe
+      tags: [auth]
+      summary: Get current user
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /users:
+    get:
+      operationId: listUsers
+      tags: [users]
+      summary: List users (admin only)
+      responses:
+        "200":
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+
+  /users/{id}:
+    get:
+      operationId: getUser
+      tags: [users]
+      summary: Get user by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: User
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      operationId: updateUser
+      tags: [users]
+      summary: Update user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUpdate"
+      responses:
+        "200":
+          description: Updated user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    delete:
+      operationId: deleteUser
+      tags: [users]
+      summary: Delete user (admin only)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /lost-items:
+    get:
+      operationId: listLostItems
+      tags: [lost-items]
+      summary: List lost items
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: location
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of lost items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LostItem"
+    post:
+      operationId: createLostItem
+      tags: [lost-items]
+      summary: Report a lost item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LostItemInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LostItem"
+
+  /lost-items/{id}:
+    get:
+      operationId: getLostItem
+      tags: [lost-items]
+      summary: Get lost item by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lost item
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LostItem"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      operationId: updateLostItem
+      tags: [lost-items]
+      summary: Update lost item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LostItemUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LostItem"
+    delete:
+      operationId: deleteLostItem
+      tags: [lost-items]
+      summary: Delete lost item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /found-items:
+    get:
+      operationId: listFoundItems
+      tags: [found-items]
+      summary: List found items
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: location
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of found items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FoundItem"
+    post:
+      operationId: createFoundItem
+      tags: [found-items]
+      summary: Report a found item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FoundItemInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FoundItem"
+
+  /found-items/{id}:
+    get:
+      operationId: getFoundItem
+      tags: [found-items]
+      summary: Get found item by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Found item
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FoundItem"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      operationId: updateFoundItem
+      tags: [found-items]
+      summary: Update found item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FoundItemUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FoundItem"
+    delete:
+      operationId: deleteFoundItem
+      tags: [found-items]
+      summary: Delete found item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /claims:
+    get:
+      operationId: listClaims
+      tags: [claims]
+      summary: List claims
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of claims
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Claim"
+    post:
+      operationId: createClaim
+      tags: [claims]
+      summary: Submit a claim
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClaimInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Claim"
+
+  /claims/{id}:
+    get:
+      operationId: getClaim
+      tags: [claims]
+      summary: Get claim by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Claim
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Claim"
+
+  /claims/{id}/approve:
+    patch:
+      operationId: approveClaim
+      tags: [claims]
+      summary: Approve a claim (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Approved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Claim"
+
+  /claims/{id}/reject:
+    patch:
+      operationId: rejectClaim
+      tags: [claims]
+      summary: Reject a claim (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Claim"
+
+  /claims/{id}/returned:
+    patch:
+      operationId: markReturned
+      tags: [claims]
+      summary: Mark item as returned (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Claim"
+
+  /notifications:
+    get:
+      operationId: listNotifications
+      tags: [notifications]
+      summary: Get user notifications
+      responses:
+        "200":
+          description: Notifications
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Notification"
+
+  /notifications/{id}/read:
+    patch:
+      operationId: markNotificationRead
+      tags: [notifications]
+      summary: Mark notification as read
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Marked read
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Notification"
+
+  /analytics/dashboard:
+    get:
+      operationId: getAnalytics
+      tags: [analytics]
+      summary: Get analytics dashboard data
+      responses:
+        "200":
+          description: Analytics data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalyticsDashboard"
+
+  /ai/match-item:
+    post:
+      operationId: matchItem
+      tags: [ai]
+      summary: AI match lost item against found items
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MatchItemInput"
+      responses:
+        "200":
+          description: Match results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MatchResult"
+
+  /ai/chat:
+    post:
+      operationId: aiChat
+      tags: [ai]
+      summary: Chat with Sondhan AI assistant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AiChatInput"
+      responses:
+        "200":
+          description: AI response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AiChatReply"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +616,462 @@ components:
       required:
         - status
 
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        universityId:
+          type: ["string", "null"]
+        department:
+          type: ["string", "null"]
+        batch:
+          type: ["string", "null"]
+        role:
+          type: string
+        phone:
+          type: ["string", "null"]
+        profileImage:
+          type: ["string", "null"]
+        isVerified:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - email
+        - role
+        - isVerified
+        - createdAt
+
+    RegisterInput:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        universityId:
+          type: string
+        department:
+          type: string
+        batch:
+          type: string
+        role:
+          type: string
+        phone:
+          type: string
+      required:
+        - name
+        - email
+        - password
+
+    LoginInput:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+      required:
+        - token
+        - user
+
+    UserUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        phone:
+          type: string
+        department:
+          type: string
+        batch:
+          type: string
+        profileImage:
+          type: string
+
+    LostItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        image:
+          type: ["string", "null"]
+        dateLost:
+          type: ["string", "null"]
+        lastSeenLocation:
+          type: ["string", "null"]
+        status:
+          type: string
+        reportedBy:
+          type: integer
+        reporterName:
+          type: ["string", "null"]
+        aiMatches:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - category
+        - description
+        - status
+        - reportedBy
+        - createdAt
+
+    LostItemInput:
+      type: object
+      properties:
+        title:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        image:
+          type: string
+        dateLost:
+          type: string
+        lastSeenLocation:
+          type: string
+      required:
+        - title
+        - category
+        - description
+
+    LostItemUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        image:
+          type: string
+        dateLost:
+          type: string
+        lastSeenLocation:
+          type: string
+        status:
+          type: string
+
+    FoundItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        image:
+          type: ["string", "null"]
+        dateFound:
+          type: ["string", "null"]
+        foundLocation:
+          type: ["string", "null"]
+        status:
+          type: string
+        foundBy:
+          type: integer
+        founderName:
+          type: ["string", "null"]
+        finderContact:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - category
+        - description
+        - status
+        - foundBy
+        - createdAt
+
+    FoundItemInput:
+      type: object
+      properties:
+        title:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        image:
+          type: string
+        dateFound:
+          type: string
+        foundLocation:
+          type: string
+        finderContact:
+          type: string
+      required:
+        - title
+        - category
+        - description
+
+    FoundItemUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        image:
+          type: string
+        dateFound:
+          type: string
+        foundLocation:
+          type: string
+        status:
+          type: string
+
+    Claim:
+      type: object
+      properties:
+        id:
+          type: integer
+        claimantId:
+          type: integer
+        claimantName:
+          type: ["string", "null"]
+        itemType:
+          type: string
+        itemId:
+          type: integer
+        itemTitle:
+          type: ["string", "null"]
+        proofText:
+          type: string
+        proofImage:
+          type: ["string", "null"]
+        status:
+          type: string
+        reviewedBy:
+          type: ["integer", "null"]
+        reviewedAt:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - claimantId
+        - itemType
+        - itemId
+        - proofText
+        - status
+        - createdAt
+
+    ClaimInput:
+      type: object
+      properties:
+        itemType:
+          type: string
+        itemId:
+          type: integer
+        proofText:
+          type: string
+        proofImage:
+          type: string
+      required:
+        - itemType
+        - itemId
+        - proofText
+
+    Notification:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        title:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        isRead:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - userId
+        - title
+        - message
+        - type
+        - isRead
+        - createdAt
+
+    AnalyticsDashboard:
+      type: object
+      properties:
+        totalLostItems:
+          type: integer
+        totalFoundItems:
+          type: integer
+        totalClaims:
+          type: integer
+        totalUsers:
+          type: integer
+        recoveredItems:
+          type: integer
+        recoveryRate:
+          type: number
+        pendingClaims:
+          type: integer
+        categoryStats:
+          type: array
+          items:
+            $ref: "#/components/schemas/CategoryStat"
+        monthlyStats:
+          type: array
+          items:
+            $ref: "#/components/schemas/MonthlyStat"
+      required:
+        - totalLostItems
+        - totalFoundItems
+        - totalClaims
+        - totalUsers
+        - recoveredItems
+        - recoveryRate
+        - pendingClaims
+        - categoryStats
+        - monthlyStats
+
+    CategoryStat:
+      type: object
+      properties:
+        category:
+          type: string
+        count:
+          type: integer
+      required:
+        - category
+        - count
+
+    MonthlyStat:
+      type: object
+      properties:
+        month:
+          type: string
+        lost:
+          type: integer
+        found:
+          type: integer
+        recovered:
+          type: integer
+      required:
+        - month
+        - lost
+        - found
+        - recovered
+
+    MatchItemInput:
+      type: object
+      properties:
+        lostItemId:
+          type: integer
+      required:
+        - lostItemId
+
+    MatchResult:
+      type: object
+      properties:
+        foundItemId:
+          type: integer
+        foundItemTitle:
+          type: string
+        matchScore:
+          type: number
+        similarity:
+          type: string
+        confidence:
+          type: string
+        reason:
+          type: string
+      required:
+        - foundItemId
+        - foundItemTitle
+        - matchScore
+        - similarity
+        - confidence
+        - reason
+
+    AiChatInput:
+      type: object
+      properties:
+        message:
+          type: string
+        conversationHistory:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChatMessage"
+      required:
+        - message
+
+    ChatMessage:
+      type: object
+      properties:
+        role:
+          type: string
+        content:
+          type: string
+      required:
+        - role
+        - content
+
+    AiChatReply:
+      type: object
+      properties:
+        reply:
+          type: string
+      required:
+        - reply

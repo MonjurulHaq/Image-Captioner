@@ -1,0 +1,3 @@
+- [bcryptjs-vs-bcrypt](bcryptjs-vs-bcrypt.md) — native `bcrypt` cannot be compiled in this Replit env; always use `bcryptjs` drop-in instead.
+- [api-list-response-shape](api-list-response-shape.md) — all list endpoints must return `{ items, total }` not a plain array; generated hooks expect this.
+- [seed-password-trick](seed-password-trick.md) — to seed bcryptjs-hashed passwords: register a temp user via the API, copy the hash from DB, delete the temp user.
